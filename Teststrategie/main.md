@@ -58,3 +58,13 @@
 | WB3 | transfer(from, to, amount) | Betrag wird zwischen Konten korrekt übertragen |
 | WB4 | getBalance() | Rückgabe des korrekten Kontostands |
 | WB5 | saveToJson() / loadFromJson() | Daten werden korrekt gespeichert und geladen |
+
+## Codeverbesserungen
+
+| Bereich | Verbesserung | Begründung |
+|---------|-------------|------------|
+| Architektur | MVC- oder Layered-Architektur einführen | Trennt UI, Logik und Daten und erhöht Wartbarkeit |
+| Fehlermanagement | Einheitliches Exception-Handling | Saubere Fehlerausgaben statt unstrukturierter Konsolenmeldungen |
+| Tests | Unit-Tests mit JUnit/Mockito | Sichert die Funktionalität und erhöht Zuverlässigkeit |
+| Logging | SLF4J oder Log4j nutzen | Bessere Nachvollziehbarkeit von Programmabläufen |
+| Validierung | Eingaben prüfen (z. B. keine negativen Beträge) | Verhindert fehlerhafte oder unsichere Daten |
