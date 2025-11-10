@@ -57,7 +57,6 @@
 | WB2 | withdraw(amount) | Betrag wird korrekt abgezogen, kein Negativsaldo |
 | WB3 | transfer(from, to, amount) | Betrag wird zwischen Konten korrekt übertragen |
 | WB4 | getBalance() | Rückgabe des korrekten Kontostands |
-| WB5 | saveToJson() / loadFromJson() | Daten werden korrekt gespeichert und geladen |
 
 ## Codeverbesserungen
 
