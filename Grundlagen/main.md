@@ -22,7 +22,7 @@
 
 ```java
 public class PriceCalculatorTestDriver {
-
+    
     static boolean test_calculate_price() {
         double price;
         boolean test_ok = true;
