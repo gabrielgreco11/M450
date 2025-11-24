@@ -5,74 +5,146 @@ import ch.schule.SalaryAccount;
 import ch.schule.SavingsAccount;
 import org.junit.jupiter.api.Test;
 
-
-import java.util.TreeMap;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 /**
- * Tests für die Klasse Account.
- *
- * @author xxxx
- * @version 1.0
+ * Tests for the class Account.
  */
 public class AccountTests {
+
     /**
-     * Tested die Initialisierung eines Kontos.
+     * Tests the initialization of an account.
      */
     @Test
     public void testInit() {
+        Account acc = new SavingsAccount("ABC123");
 
-        fail("toDo");
+        assertEquals("ABC123", acc.getId());
+        assertEquals(0, acc.getBalance());
+        // No bookings yet → can transact any date
+        assertTrue(acc.canTransact(100));
     }
 
     /**
-     * Testet das Einzahlen auf ein Konto.
+     * Tests deposit.
      */
     @Test
     public void testDeposit() {
-        fail("toDo");
+        Account acc = new SavingsAccount("A1");
+
+        assertTrue(acc.deposit(10, 500));
+        assertEquals(500, acc.getBalance());
+
+        // negative amount → rejected
+        assertFalse(acc.deposit(20, -100));
+        assertEquals(500, acc.getBalance());
+
+        // out-of-order date → rejected
+        assertFalse(acc.deposit(5, 200)); // earlier than last booking (10)
+        assertEquals(500, acc.getBalance());
     }
 
     /**
-     * Testet das Abheben von einem Konto.
+     * Tests withdraw.
      */
     @Test
     public void testWithdraw() {
-        fail("toDo");
+        Account acc = new SavingsAccount("A1");
+
+        acc.deposit(10, 1000);
+
+        // OK withdrawal
+        assertTrue(acc.withdraw(20, 300));
+        assertEquals(700, acc.getBalance());
+
+        // not enough balance for SavingsAccount
+        assertFalse(acc.withdraw(30, 800)); // would go negative
+        assertEquals(700, acc.getBalance());
+
+        // negative amount
+        assertFalse(acc.withdraw(40, -5));
+
+        // wrong transaction order
+        assertFalse(acc.withdraw(15, 100)); // before date 20
     }
 
     /**
-     * Tests the reference from SavingsAccount
+     * Tests reference from SavingsAccount.
      */
     @Test
     public void testReferences() {
-        fail("toDo");
+        Account a = new SavingsAccount("SAV1");
+
+        assertTrue(a instanceof SavingsAccount);
+        assertFalse(a instanceof SalaryAccount);
     }
 
     /**
-     * teste the canTransact Flag
+     * Tests canTransact flag.
      */
     @Test
     public void testCanTransact() {
-        fail("toDo");
+        Account acc = new SavingsAccount("A1");
+
+        // No bookings yet → always true
+        assertTrue(acc.canTransact(1));
+
+        acc.deposit(10, 100);
+
+        assertTrue(acc.canTransact(10));
+        assertTrue(acc.canTransact(11));
+
+        // Earlier than last booking → false
+        assertFalse(acc.canTransact(5));
     }
 
     /**
-     * Experimente mit print().
+     * Tests print() output (not content).
      */
     @Test
     public void testPrint() {
-        fail("toDo");
+        Account acc = new SavingsAccount("A1");
+        acc.deposit(10, 1000);
+        acc.withdraw(20, 300);
+
+        // Capture console output
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        acc.print();
+
+        String output = out.toString();
+
+        assertTrue(output.contains("Kontoauszug 'A1'"));
+        assertTrue(output.contains("Saldo"));
+        assertFalse(output.isEmpty());
     }
 
     /**
-     * Experimente mit print(year,month).
+     * Tests monthly print.
      */
     @Test
     public void testMonthlyPrint() {
-        fail("toDo");
-    }
+        Account acc = new SavingsAccount("A1");
 
+        // January 2020 → startDate = (2020-1970)*360 + 0
+        int dJan = (2020 - 1970) * 360;
+
+        acc.deposit(dJan + 1, 500);
+        acc.withdraw(dJan + 5, 100);
+
+        // Capture console output
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        acc.print(2020, 1);
+
+        String output = out.toString();
+
+        assertTrue(output.contains("Kontoauszug 'A1' Monat: 1.2020"));
+        assertFalse(output.isEmpty());
+    }
 }

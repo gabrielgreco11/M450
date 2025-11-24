@@ -16,7 +16,6 @@
 * Erklären Sie kurze Anwendungsfälle / Beispiele für die jeweiligen Features
 * Verlinken Sie eine Referenz Seite, welche Ihnen zusagt
 
-1. 
 2. 
 
 

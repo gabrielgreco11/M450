@@ -1,35 +1,13 @@
-package ch.schule.bank.junit5;
+package ch.schule;
+import org.junit.jupiter.api.Test;import static org.junit.jupiter.api.Assertions.*;
+class BookingTests {
 
-import ch.schule.Booking;
-import org.junit.jupiter.api.Test;
+	@Testvoid testBookingCreation() {
+		Booking booking = new Booking(12345, 50000);
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
-
-/**
- * Tests für die Klasse Booking.
- *
- * @author Luigi Cavuoti
- * @version 1.1
- */
-public class BookingTests
-{
-	/**
-	 * Tests f�r die Erzeugung von Buchungen.
-	 */
-	@Test
-	public void testInitialization()
-	{
-		fail("toDo");
-	}
-
-	/**
-	 * Experimente mit print().
-	 */
-	@Test
-	public void testPrint()
-	{
-		fail("toDo");
+		assertAll("Booking properties",
+				() -> assertEquals(12345, booking.getDate(), "Date should be set correctly"),
+				() -> assertEquals(50000, booking.getAmount(), "Amount should be set correctly")
+		);
 	}
 }
