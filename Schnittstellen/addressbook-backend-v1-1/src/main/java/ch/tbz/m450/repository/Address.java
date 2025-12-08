@@ -26,4 +26,7 @@ public class Address {
     private String lastname;
     private String phonenumber;
     private Date registrationDate;
+
+    public Address(int i, String muster, String max) {
+    }
 }

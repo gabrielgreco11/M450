@@ -1,8 +1,7 @@
-package ch.tbz.m450;
+package ch.tbz.m450.service;
 
 import ch.tbz.m450.repository.Address;
 import ch.tbz.m450.repository.AddressRepository;
-import ch.tbz.m450.service.AddressService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,19 +31,19 @@ class AddressServiceTest {
         Address result = addressService.save(address);
 
         assertEquals(address, result);
-        verify(addressRepository, times(1)).save(address);
+        verify(addressRepository).save(address);
     }
 
     @Test
     void testGetAllSorted() {
-        Address a1 = new Address(1, "Müller", "Hans");
-        Address a2 = new Address(2, "Meier", "Anna");
+        Address a1 = new Address(1, "Meier", "Anna");
+        Address a2 = new Address(2, "Zuber", "Hans");
 
-        when(addressRepository.findAll()).thenReturn(List.of(a1, a2));
+        when(addressRepository.findAll()).thenReturn(List.of(a2, a1));
 
         List<Address> result = addressService.getAll();
 
-        assertEquals(List.of(a2, a1), result); // alphabetisch Meier < Müller
+        assertEquals(List.of(a1, a2), result); // sorted alphabetically
     }
 
     @Test
