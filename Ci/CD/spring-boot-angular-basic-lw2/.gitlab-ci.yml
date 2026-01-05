@@ -1,0 +1,78 @@
+image: maven:3.9.0-eclipse-temurin-17
+
+stages:
+  - build
+  - test
+  - report
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN"
+
+cache:
+  paths:
+    - .m2/repository/
+
+before_script:
+  - echo "Starting CI/CD Pipeline for Spring Boot Angular Application"
+
+build:
+  stage: build
+  script:
+    - echo "Building application..."
+    - mvn clean compile -q
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 hour
+  only:
+    - main
+    - merge_requests
+
+test:
+  stage: test
+  script:
+    - echo "Running Unit Tests..."
+    - mvn test -q
+  artifacts:
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
+    paths:
+      - target/surefire-reports/
+      - target/site/jacoco/
+    expire_in: 30 days
+    when: always
+  coverage: '/Line coverage.*?(\d+\.\d+)%/'
+  only:
+    - main
+    - merge_requests
+
+report:
+  stage: report
+  script:
+    - echo "Generating Code Coverage Reports..."
+    - mvn jacoco:report -q
+    - echo "Test and Coverage reports generated successfully"
+  artifacts:
+    paths:
+      - target/site/jacoco/
+      - target/surefire-reports/
+    expire_in: 90 days
+    when: always
+  only:
+    - main
+    - merge_requests
+  allow_failure: true
+
+pages:
+  stage: report
+  script:
+    - echo "Preparing test reports for GitLab Pages..."
+    - mkdir -p public
+    - cp -r target/site/jacoco/* public/ 2>/dev/null || true
+  artifacts:
+    paths:
+      - public
+    expire_in: 90 days
+  only:
+    - main
+  allow_failure: true
