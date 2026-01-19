@@ -7,6 +7,7 @@ import Planer from "./components/Planer/Planer";
 import AddRecipe from "./components/AddRecipe/AddRecipe";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import EditRecipe from "./components/EditRecipe/EditRecipe";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/planer" element={<Planer/>} />
           <Route path="/new-menues" element={<AddRecipe/>} />
         </Routes>
+        <Route path="/recipes/edit/:id" element={<EditRecipe />} />
       </div>
       </>
   );
