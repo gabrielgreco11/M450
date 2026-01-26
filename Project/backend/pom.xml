@@ -1,0 +1,28 @@
+<profiles>
+  <profile>
+    <id>unit-tests</id>
+    <properties>
+      <skip.ui.tests>true</skip.ui.tests>
+    </properties>
+  </profile>
+
+  <profile>
+    <id>ui-tests</id>
+    <properties>
+      <skip.ui.tests>false</skip.ui.tests>
+    </properties>
+  </profile>
+</profiles>
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.1.2</version>
+      <configuration>
+        <skipTests>${skip.ui.tests}</skipTests>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
