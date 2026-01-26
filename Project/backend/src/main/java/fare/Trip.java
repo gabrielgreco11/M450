@@ -1,4 +1,4 @@
-public package fare;
+package fare;
 
 
 public class Trip {
@@ -40,5 +40,6 @@ public static Trip exitWithoutEntry() {
 Trip t = new Trip(0, false);
 t.exitWithoutEntry = true;
 return t;
+} 
 }
 

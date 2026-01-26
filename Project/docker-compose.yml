@@ -4,7 +4,4 @@ services:
   backend:
     build: ./backend
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:80"
+

@@ -1,5 +1,4 @@
 FROM maven:3.9.6-eclipse-temurin-17
-WORKDIR /app
+WORKDIR /backend
 COPY . .
-RUN mvn test -Punit-tests
-CMD ["mvn", "test", "-Punit-tests"]
+CMD ["tail", "-f", "/dev/null"]
